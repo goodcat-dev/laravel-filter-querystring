@@ -15,16 +15,27 @@ trait UseQueryString
      */
     public function scopeQueryString(Builder $query, Request|array $request): void
     {
-        $reflectionClass = new \ReflectionClass($this);
+        $methods = $this->getQueryStringMethods();
 
+        $queryStrings = is_array($request) ? $request : $request->query();
+
+        foreach ($queryStrings as $key => $value) {
+            if (! array_key_exists($key, $methods)) continue;
+
+            $this->{$methods[$key]}($query, $value);
+        }
+    }
+
+    protected function getQueryStringMethods(): array
+    {
         $methods = [];
 
+        $reflectionClass = new \ReflectionClass($this);
+
         foreach ($reflectionClass->getMethods() as $method) {
-            $attributes = $method->getAttributes();
+            $attributes = $method->getAttributes(QueryString::class);
 
             foreach ($attributes as $attribute) {
-                if ($attribute->getName() !== QueryString::class) continue;
-
                 /** @var QueryString $queryString */
                 $queryString = $attribute->newInstance();
 
@@ -32,12 +43,6 @@ trait UseQueryString
             }
         }
 
-        $queryStrings = is_array($request) ? $request : $request->query();
-
-        foreach ($queryStrings as $key => $value) {
-            if (in_array($value, [null, ''], true) || ! array_key_exists($key, $methods)) continue;
-
-            $this->{$methods[$key]}($query, $value);
-        }
+        return $methods;
     }
 }
