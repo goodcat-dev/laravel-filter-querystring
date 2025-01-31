@@ -2,10 +2,12 @@
 
 namespace Goodcat\QueryString\Attributes;
 
-#[\Attribute(\Attribute::TARGET_METHOD)]
+use Attribute;
+
+#[Attribute(Attribute::TARGET_METHOD|Attribute::IS_REPEATABLE)]
 class QueryString
 {
-    public function __construct(readonly string $name)
+    public function __construct(public readonly string $name)
     {
         //
     }

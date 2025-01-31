@@ -26,7 +26,7 @@ trait UseQueryString
 
             if ($value === null) continue;
 
-            $this->{$methods[$key]}($query, $value);
+            $this->{$methods[$key]}($query, $value, $key);
         }
     }
 
