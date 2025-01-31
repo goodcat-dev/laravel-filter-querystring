@@ -24,6 +24,8 @@ trait UseQueryString
 
             $value = $this->normalizeQueryStringValue($value);
 
+            if ($value === null) continue;
+
             $this->{$methods[$key]}($query, $value);
         }
     }
