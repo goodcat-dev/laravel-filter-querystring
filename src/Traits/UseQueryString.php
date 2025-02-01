@@ -15,6 +15,8 @@ trait UseQueryString
      */
     public function scopeQueryString(Builder $query, Request|array $request): void
     {
+        dd(config('querystring.allows_null'));
+
         $methods = $this->getQueryStringMethods();
 
         $queryStrings = is_array($request) ? $request : $request->query();
@@ -24,7 +26,7 @@ trait UseQueryString
 
             $value = $this->normalizeQueryStringValue($value);
 
-            if ($value === null) continue;
+            if ($value === null && ! config('querystring.allows_null')) continue;
 
             $this->{$methods[$key]}($query, $value, $key);
         }
