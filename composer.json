@@ -7,6 +7,11 @@
             "Goodcat\\QueryString\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Goodcat\\QueryString\\Tests\\": "tests"
+        }
+    },
     "authors": [
         {
             "name": "Matteo Palazzo",
