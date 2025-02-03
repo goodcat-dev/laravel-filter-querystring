@@ -5,6 +5,8 @@ namespace Goodcat\QueryString\Traits;
 use Goodcat\QueryString\Attributes\QueryString;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use ReflectionClass;
+use ReflectionMethod;
 
 trait UseQueryString
 {
@@ -15,8 +17,6 @@ trait UseQueryString
      */
     public function scopeQueryString(Builder $query, Request|array $request): void
     {
-        dd(config('querystring.allows_null'));
-
         $methods = $this->getQueryStringMethods();
 
         $queryStrings = is_array($request) ? $request : $request->query();
@@ -43,9 +43,9 @@ trait UseQueryString
     {
         $methods = [];
 
-        $reflectionClass = new \ReflectionClass($this);
+        $reflectionClass = new ReflectionClass($this);
 
-        foreach ($reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+        foreach ($reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
             $attributes = $method->getAttributes(QueryString::class);
 
             foreach ($attributes as $attribute) {

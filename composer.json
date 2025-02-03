@@ -22,5 +22,14 @@
                 "Goodcat\\QueryString\\QueryStringServiceProvider"
             ]
         }
+    },
+    "keywords": [
+        "laravel",
+        "query-string",
+        "filters",
+        "goodcat"
+    ],
+    "require-dev": {
+        "orchestra/testbench": "^9.9"
     }
 }
