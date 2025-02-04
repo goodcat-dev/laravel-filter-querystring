@@ -10,7 +10,7 @@ class QueryString
     /**
      * @param non-empty-string $name
      */
-    public function __construct(public readonly string $name)
+    public function __construct(public string $name)
     {
         //
     }
