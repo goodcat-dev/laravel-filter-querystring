@@ -1,6 +1,6 @@
 <?php
 
-namespace Goodcat\QueryString\Tests\Unit;
+namespace Goodcat\QueryString\Tests\Feature;
 
 use Goodcat\QueryString\Attributes\QueryString;
 use Goodcat\QueryString\Tests\TestCase;
