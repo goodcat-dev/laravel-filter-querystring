@@ -54,7 +54,7 @@ public function filterByName(Builder $query, string $search, string $name): void
 
 E.g. The string `name` in the URL `http:example.com/?name=John+Doe` is mapped to the method tagged with `#[QueryString('name')]` attribute.
 
-The filter function receive three parameters: the _query builder_, the _value of the query string_ and the _name of the query string_. You can add multiple attributes to the same method.
+The filter function receives three parameters: the _query builder_, the _value of the query string_ and the _name of the query string_. You can add multiple attributes to the same method.
 
 ```php
 #[QueryString('name')]
