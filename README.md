@@ -43,6 +43,28 @@ Start using `laravel-querystring` in three steps.
 
 That's it. You're all set to start using `laravel-querystring`.
 
+## Filter functions
+
+A filter function is a method tagged with the `QueryString` attribute. The attribute receives a parameter representing the _name of the query string_.
+
+```php
+#[QueryString('name')]
+public function filterByName(Builder $query, string $search, string $name): void 
+```
+
+E.g. The string `name` in the URL `http:example.com/?name=John+Doe` is mapped to the method tagged with `#[QueryString('name')]` attribute.
+
+The filter function receive three parameters: the _query builder_, the _value of the query string_ and the _name of the query string_. You can add multiple attributes to the same method.
+
+```php
+#[QueryString('name')]
+#[QueryString('email')]
+public function genericStringSearch(Build $query, string $search, string $name): void
+{
+    $query->where($name, 'like', "$search%");
+}
+```
+
 ## Configuration
 
 To publish the config file to `config/querystring.php` run the command:
