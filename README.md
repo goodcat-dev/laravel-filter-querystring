@@ -42,3 +42,15 @@ Start using `laravel-querystring` in three steps.
    ```
 
 That's it. You're all set to start using `laravel-querystring`.
+
+## Configuration
+
+To publish the config file to `config/querystring.php` run the command:
+
+```sh
+php artisan vendor:publish --provider="Goodcat\QueryString\QueryStringServiceProvider"
+```
+
+### `null` values
+
+The `null` values are ignored by `laravel-querystring`. If you want `null` values passed to your function, set `'allows_null'` to `true` in `config/querystring.php` file. 
