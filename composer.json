@@ -19,6 +19,7 @@
             "role": "Developer"
         }
     ],
+    "homepage": "https://github.com/goodcat-dev/laravel-querystring",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "extra": {
