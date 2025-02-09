@@ -65,6 +65,23 @@ public function genericStringSearch(Build $query, string $search, string $name):
 }
 ```
 
+## `queryString()` scope
+
+The `queryString()` scope is the local scope you call when you want to filter by query strings. It accepts a `Request` or an `array<string, string>`.
+
+```php
+public function index(Request $request): View
+{
+    $filters = $request->query();
+    
+    // Change $filters array as desired.
+    
+    $users = User::query()->queryString($filters)->get();
+    
+    return view('user.index', ['users' => $users]);
+}
+```
+
 ## Configuration
 
 To publish the config file to `config/querystring.php` run the command:
