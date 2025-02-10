@@ -93,3 +93,6 @@ php artisan vendor:publish --provider="Goodcat\QueryString\QueryStringServicePro
 ### `null` values
 
 The `null` values are ignored by `laravel-querystring`. If you want `null` values passed to your function, set `'allows_null'` to `true` in `config/querystring.php` file.
+
+> [!NOTE]
+> Laravel uses `TrimStrings` and `ConvertEmptyStringsToNull` to trim and nullify empty query strings from requests. If you are passing an `array` instead of the `$request`, is up to you normalize the passed values to the filter functions.

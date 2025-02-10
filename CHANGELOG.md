@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.1.2
+
+### Removed
+
+- `normalizeQueryStringValue()` removed, use default Laravel middlewares.
+
 ## v0.1.1
 
 Released on _**2025-02-09**_.
