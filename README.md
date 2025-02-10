@@ -93,20 +93,3 @@ php artisan vendor:publish --provider="Goodcat\QueryString\QueryStringServicePro
 ### `null` values
 
 The `null` values are ignored by `laravel-querystring`. If you want `null` values passed to your function, set `'allows_null'` to `true` in `config/querystring.php` file.
-
-## Customization
-
-In addition to the configuration file, you can change the behavior of this package by overriding some functions.
-
-### `normalizeQueryStringValue` method
-
-This method is responsible to normalize the value passed to the filter function. It trims the given value and nullify it if empty. If you want to change this behaviour you can override this function in your model class.
-
-```php
-    protected function normalizeQueryStringValue(?string $value): ?string
-    {
-        $value = trim($value);
-
-        return $value === '' ? null : $value;
-    }
-```

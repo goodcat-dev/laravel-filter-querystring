@@ -22,7 +22,7 @@ class UseQueryStringTest extends TestCase
     #[Test]
     public function it_ignores_empty_query_string(): void
     {
-        $sql = (new FakeModel)->query()->queryString(['email' => ' '])->toSql();
+        $sql = (new FakeModel)->query()->queryString(['email' => null])->toSql();
 
         $this->assertStringNotContainsString('where "email" like ?', $sql);
     }
@@ -45,7 +45,7 @@ class UseQueryStringTest extends TestCase
     {
         config()->set('querystring.allows_null', true);
 
-        $sql = (new FakeModel)->query()->queryString(['email' => ''])->toSql();
+        $sql = (new FakeModel)->query()->queryString(['email' => null])->toSql();
 
         $this->assertStringContainsString('where "email" like ?', $sql);
     }

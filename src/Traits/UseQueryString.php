@@ -19,24 +19,18 @@ trait UseQueryString
     {
         $methods = $this->getQueryStringMethods();
 
-        $queryStrings = is_array($request) ? $request : $request->query();
+        $queryStrings = array_intersect_key(
+            is_array($request) ? $request : $request->query(),
+            $methods
+        );
+
+        $allowsNull = config('querystring.allows_null');
 
         foreach ($queryStrings as $key => $value) {
-            if (! array_key_exists($key, $methods)) continue;
-
-            $value = $this->normalizeQueryStringValue($value);
-
-            if ($value === null && ! config('querystring.allows_null')) continue;
+            if ($value === null && ! $allowsNull) continue;
 
             $this->{$methods[$key]}($query, $value, $key);
         }
-    }
-
-    protected function normalizeQueryStringValue(?string $value): ?string
-    {
-        $value = trim($value);
-
-        return $value === '' ? null : $value;
     }
 
     protected function getQueryStringMethods(): array
