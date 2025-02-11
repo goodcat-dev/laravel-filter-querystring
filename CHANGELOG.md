@@ -2,11 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
-## v0.1.2
+## v0.1.2 [unreleased]
+
+### Added
+
+- Custom filter object via `getQueryStringObject()` method.
 
 ### Removed
 
-- `normalizeQueryStringValue()` removed, use default Laravel middlewares.
+- `normalizeQueryStringValue()` removed, use default Laravel middleware.
 
 ## v0.1.1
 

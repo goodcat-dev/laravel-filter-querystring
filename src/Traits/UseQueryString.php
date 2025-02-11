@@ -17,7 +17,9 @@ trait UseQueryString
      */
     public function scopeQueryString(Builder $query, Request|array $request): void
     {
-        $methods = $this->getQueryStringMethods();
+        $object = $this->getQueryStringObject();
+
+        $methods = $this->getQueryStringMethods($object);
 
         $queryStrings = array_intersect_key(
             is_array($request) ? $request : $request->query(),
@@ -29,15 +31,15 @@ trait UseQueryString
         foreach ($queryStrings as $key => $value) {
             if ($value === null && ! $allowsNull) continue;
 
-            $this->{$methods[$key]}($query, $value, $key);
+            $object->{$methods[$key]}($query, $value, $key);
         }
     }
 
-    protected function getQueryStringMethods(): array
+    protected function getQueryStringMethods(object $object): array
     {
         $methods = [];
 
-        $reflectionClass = new ReflectionClass($this);
+        $reflectionClass = new ReflectionClass($object);
 
         foreach ($reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
             $attributes = $method->getAttributes(QueryString::class);
@@ -51,5 +53,10 @@ trait UseQueryString
         }
 
         return $methods;
+    }
+
+    protected function getQueryStringObject(): object
+    {
+        return $this;
     }
 }
