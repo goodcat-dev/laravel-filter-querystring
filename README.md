@@ -63,7 +63,7 @@ E.g. The string `name` in the URL `http://example.com/?name=John+Doe` is mapped 
 
 ### Filter methods
 
-The filter method receives three parameters: the query builder, the query string value and the query string name.
+The filter method receives three parameters: the query builder, the query string value and the query string name. You can add multiple attributes to the same method.
 
 ```php
 #[QueryString('name')]
