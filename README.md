@@ -1,10 +1,10 @@
 # Query String
 
-This package helps you filter Eloquent models based on query string parameters.
+This package allows you to filter Eloquent models using query string parameters.
 
 ## Quick Start
 
-Start using `laravel-querystring` in three steps.
+Get started with `laravel-querystring` in three steps.
 
 1. Download the package via Composer.
    ```sh
@@ -29,7 +29,7 @@ Start using `laravel-querystring` in three steps.
    }
    ```
    
-3. Use the `queryString()` scope when you want to filter by the query strings in the request.
+3. Use the `queryString()` scope when you want to filter models based on query string parameters in the request.
    ```php
    class UserController extends Controller
    {
@@ -58,12 +58,12 @@ The `QueryString` attribute is used to map the _name of a query string_ to a met
 public function filterByName(Builder $query, string $search): void 
 ```
 
-E.g. The string `name` in the URL `http:example.com/?name=John+Doe` is mapped to the method tagged with `#[QueryString('name')]` attribute.
+E.g. The string `name` in the URL `http://example.com/?name=John+Doe` is mapped to the method tagged with the `#[QueryString('name')]` attribute.
 
 
 ### Filter methods
 
-The filter method receives three parameters: the _query builder_, the _value of the query string_ and the _name of the query string_. You can add multiple attributes to the same method.
+The filter method receives three parameters: the query builder, the query string value and the query string name.
 
 ```php
 #[QueryString('name')]
@@ -76,7 +76,7 @@ public function genericStringSearch(Build $query, string $search, string $name):
 
 ### `queryString()` scope
 
-The `queryString()` scope is the local scope responsible to call your filter methods. It accepts a `Request` or an `array<string, string>`.
+The `queryString()` scope is responsible for calling your filter methods. It accepts a `Request` or an `array<string, string>`.
 
 ```php
 public function index(Request $request): View
@@ -91,18 +91,18 @@ public function index(Request $request): View
 }
 ```
 
-Laravel uses `TrimStrings` and `ConvertEmptyStringsToNull` middlewares to trim and nullify empty strings from requests. If you pass an `array` to the filter method, it's up to you normalize the passed value.
+Laravel uses `TrimStrings` and `ConvertEmptyStringsToNull` middlewares to trim and nullify empty strings from requests. If you pass an `array` to the filter method, it's up to you to normalize the passed value.
 
 ### Filter object
 
-By default `laravel-querystring` searches the model for filter methods. If you wish, you can register a different class by overriding the `getQueryStringObjet()` method.
+By default, `laravel-querystring` searches the model for filter methods. If you wish, you can register a different class by overriding the `getQueryStringObject()` method.
 
 ```php
    class User extends Authenticatable
    {
        use UseQueryString;
 
-        protected method getQueryStringObject(): object
+        protected function getQueryStringObject(): object
         {
             return new CustomFilterClass();
         }
@@ -117,6 +117,6 @@ To publish the config file to `config/querystring.php` run the command:
 php artisan vendor:publish --provider="Goodcat\QueryString\QueryStringServiceProvider"
 ```
 
-### `null` values
+### Handling `null` values
 
 The `null` values are ignored by `laravel-querystring`. If you want `null` values passed to your function, set `'allows_null'` to `true` in `config/querystring.php` file.
