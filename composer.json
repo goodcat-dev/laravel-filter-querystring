@@ -1,6 +1,6 @@
 {
     "name": "goodcat/laravel-querystring",
-    "description": "A Laravel package to map query string to filter function",
+    "description": "A laravel package to filter Eloquent models using query string parameters",
     "license": "MIT",
     "autoload": {
         "psr-4": {
@@ -39,6 +39,7 @@
         "php": "^8.2"
     },
     "require-dev": {
-        "orchestra/testbench": "^9.9"
+        "orchestra/testbench": "^9.9",
+        "phpunit/phpunit": "^11.5"
     }
 }
