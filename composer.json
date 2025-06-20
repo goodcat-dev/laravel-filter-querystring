@@ -36,7 +36,9 @@
         "goodcat"
     ],
     "require": {
-        "php": "^8.2"
+        "php": "^8.2",
+        "illuminate/database": "^10.0|^11.0|^12.0",
+        "illuminate/http": "^10.0|^11.0|^12.0"
     },
     "require-dev": {
         "orchestra/testbench": "^9.9",
