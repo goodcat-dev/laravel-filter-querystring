@@ -11,7 +11,8 @@ use ReflectionMethod;
 trait UseQueryString
 {
     /**
-     * @param  Request|array<string, string>  $request
+     * @param  Builder<self>  $query
+     * @param  Request|array<string, ?string>  $request
      */
     public function scopeQueryString(Builder $query, Request|array $request): void
     {
@@ -35,6 +36,9 @@ trait UseQueryString
         }
     }
 
+    /**
+     * @return array<string, ?string>
+     */
     protected function getQueryStringMethods(object $object): array
     {
         $methods = [];
