@@ -2,9 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.0.1
+
+Released on _**2025-06-20**_.
+
+### Added
+
+- PHPStan, Larastan.
+- Laravel Pint, CS Fixer.
+- Requires illuminate/database, illuminate/http.
+
 ## v1.0.0
 
-Released on **_2025-02-14_**.
+Released on _**2025-02-14**_.
 
 ### Added
 
