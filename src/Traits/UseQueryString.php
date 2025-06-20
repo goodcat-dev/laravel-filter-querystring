@@ -5,6 +5,7 @@ namespace Goodcat\QueryString\Traits;
 use Goodcat\QueryString\Attributes\QueryString;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -19,7 +20,9 @@ trait UseQueryString
     {
         $object = $this->getQueryStringObject();
 
-        $methods = $this->getQueryStringMethods($object);
+        $methods = $this->getQueryStringMethodsFromCache();
+
+        if (!$methods) $methods = $this->getQueryStringMethods($object);
 
         $queryStrings = array_intersect_key(
             is_array($request) ? $request : $request->query(),
@@ -29,13 +32,29 @@ trait UseQueryString
         $allowsNull = config('querystring.allows_null');
 
         foreach ($queryStrings as $key => $value) {
-            if ($value === null && ! $allowsNull) continue;
+            if ($value === null && !$allowsNull) continue;
 
             $object->{$methods[$key]}($query, $value, $key);
         }
     }
 
-    protected function getQueryStringMethods(object $object): array
+    protected function getQueryStringMethodsFromCache(): array
+    {
+        $cachePath = App::bootstrapPath('cache/querystring.php');
+
+        if (!file_exists($cachePath)) return [];
+
+        /** @var array<class-string, array> $cachedMethods */
+        $cachedMethods = require $cachePath;
+
+        $classString = get_class($this);
+
+        if (!array_key_exists($classString, $cachedMethods)) return [];
+
+        return $cachedMethods[$classString];
+    }
+
+    public function getQueryStringMethods(object $object): array
     {
         $methods = [];
 
@@ -55,7 +74,7 @@ trait UseQueryString
         return $methods;
     }
 
-    protected function getQueryStringObject(): object
+    public function getQueryStringObject(): object
     {
         return $this;
     }
