@@ -4,7 +4,7 @@ namespace Goodcat\QueryString;
 
 use Illuminate\Support\ServiceProvider;
 
-class QueryStringServiceProvider extends ServiceProvider 
+class QueryStringServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
