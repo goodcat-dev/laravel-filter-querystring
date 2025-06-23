@@ -12,9 +12,8 @@ use ReflectionMethod;
 trait UseQueryString
 {
     /**
-     * @param Builder $query
-     * @param Request|array<string, string> $request
-     * @return void
+     * @param  Builder<self>  $query
+     * @param  Request|array<string, ?string>  $request
      */
     public function scopeQueryString(Builder $query, Request|array $request): void
     {
@@ -32,7 +31,9 @@ trait UseQueryString
         $allowsNull = config('querystring.allows_null');
 
         foreach ($queryStrings as $key => $value) {
-            if ($value === null && !$allowsNull) continue;
+            if ($value === null && ! $allowsNull) {
+                continue;
+            }
 
             $object->{$methods[$key]}($query, $value, $key);
         }
@@ -54,6 +55,9 @@ trait UseQueryString
         return $cachedMethods[$classString];
     }
 
+    /**
+     * @return array<string, ?string>
+     */
     public function getQueryStringMethods(object $object): array
     {
         $methods = [];

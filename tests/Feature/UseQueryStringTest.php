@@ -28,7 +28,7 @@ class UseQueryStringTest extends TestCase
     }
 
     #[Test]
-    public function it_handles_multiple_attributes_on_same_function()
+    public function it_handles_multiple_attributes_on_same_function(): void
     {
         $queryString = [
             'name' => 'John Doe',
@@ -55,6 +55,9 @@ class FakeModel extends Model
 {
     use UseQueryString;
 
+    /**
+     * @param  Builder<self>  $query
+     */
     #[QueryString('name')]
     #[QueryString('email')]
     public function genericTextSearch(Builder $query, ?string $search, string $queryString): void
