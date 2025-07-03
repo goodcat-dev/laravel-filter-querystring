@@ -2,6 +2,7 @@
 
 namespace Goodcat\QueryString\Console;
 
+use Goodcat\QueryString\QueryString;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -20,7 +21,7 @@ class QueryStringClearCommand extends Command
 
     public function handle(): void
     {
-        $this->files->delete($this->laravel->bootstrapPath('cache/querystring.php'));
+        $this->files->delete(QueryString::getCachePath());
 
         $this->components->info('Cached query strings cleared successfully.');
     }

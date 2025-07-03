@@ -4,7 +4,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Goodcat\\QueryString\\": "src/"
+            "Goodcat\\QueryString\\": "src"
         }
     },
     "autoload-dev": {
@@ -15,8 +15,7 @@
     "authors": [
         {
             "name": "Matteo Palazzo",
-            "email": "outlaw.plz@gmail.com",
-            "role": "Developer"
+            "email": "outlaw.plz@gmail.com"
         }
     ],
     "homepage": "https://github.com/goodcat-dev/laravel-querystring",

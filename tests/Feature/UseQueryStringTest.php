@@ -2,11 +2,9 @@
 
 namespace Goodcat\QueryString\Tests\Feature;
 
-use Goodcat\QueryString\Attributes\QueryString;
+use Goodcat\QueryString\Console\QueryStringCacheCommand;
+use Goodcat\QueryString\Tests\Support\FakeModel;
 use Goodcat\QueryString\Tests\TestCase;
-use Goodcat\QueryString\Traits\UseQueryString;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use PHPUnit\Framework\Attributes\Test;
 
 class UseQueryStringTest extends TestCase
@@ -49,19 +47,18 @@ class UseQueryStringTest extends TestCase
 
         $this->assertStringContainsString('where "email" like ?', $sql);
     }
-}
 
-class FakeModel extends Model
-{
-    use UseQueryString;
-
-    /**
-     * @param  Builder<self>  $query
-     */
-    #[QueryString('name')]
-    #[QueryString('email')]
-    public function genericTextSearch(Builder $query, ?string $search, string $queryString): void
+    #[Test]
+    public function it_should_load_querystring_from_cache()
     {
-        $query->where($queryString, 'like', "$search%");
+        $this
+            ->artisan(QueryStringCacheCommand::class, [
+                '--namespace' => 'Goodcat\\QueryString\\Tests\\',
+                '--path' => __DIR__ . '/..'
+            ]);
+
+        $sql = (new FakeModel)->query()->queryString(['name' => 'John Doe'])->toSql();
+
+        $this->assertStringContainsString('where "name" like ?', $sql);
     }
 }
