@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.1.0
+
+Released on _**2025-07-04**_.
+
+### Added
+
+- Query string caching.
+- Artisan commands "querystring:cache" and "querystring:clear".
+- Service QueryString.
+
 ## v1.0.1
 
 Released on _**2025-06-20**_.

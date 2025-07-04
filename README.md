@@ -45,6 +45,41 @@ Get started with `laravel-querystring` in three steps.
 
 That's it. You're all set to start using `laravel-querystring`.
 
+## Caching
+
+`laravel-querystring` scans your code to locate methods tagged with the `QueryString` attribute.
+While the performance impact of this discovery is negligible, you can cache these methods using the Artisan command `querystring:cache`.
+To clear the cache, use the Artisan command `querystring:clear`.
+
+```shell
+php artisan querystring:cache
+```
+
+To streamline your deployment process, you can integrate these commands into Laravel's `optimize` command.
+To do this, simply add the following code to your   `AppServiceProvider` file.
+
+```php
+public function boot(): void
+{
+   $this->optimizes(
+      optimize: 'querystring:cache',
+      clear: 'querystring:clear',
+   );
+}
+```
+
+## Configuration
+
+To publish the config file to `config/querystring.php` run the command:
+
+```sh
+php artisan vendor:publish --provider="Goodcat\QueryString\QueryStringServiceProvider"
+```
+
+### Handling `null` values
+
+The `null` values are ignored by `laravel-querystring`. If you want `null` values passed to your function, set `'allows_null'` to `true` in `config/querystring.php` file.
+
 ## Digging deeper
 
 Let's take a closer look at how `laravel-querystring` works under the hood and explore its advanced features.
@@ -108,15 +143,3 @@ By default, `laravel-querystring` searches the model for filter methods. If you 
         }
    }
 ```
-
-## Configuration
-
-To publish the config file to `config/querystring.php` run the command:
-
-```sh
-php artisan vendor:publish --provider="Goodcat\QueryString\QueryStringServiceProvider"
-```
-
-### Handling `null` values
-
-The `null` values are ignored by `laravel-querystring`. If you want `null` values passed to your function, set `'allows_null'` to `true` in `config/querystring.php` file.
