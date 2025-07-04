@@ -13,9 +13,12 @@ use ReflectionMethod;
 
 class QueryString
 {
+    /**
+     * @return array<string, string>
+     */
     public function loadMethodsFromCache(object $object): array
     {
-        /** @var array<class-string, array> $cachedMethods */
+        /** @var array<class-string, array<string, string>> $cachedMethods */
         $cachedMethods = require QueryString::getCachePath();
 
         return $cachedMethods[get_class($object)] ?? [];
@@ -55,7 +58,7 @@ class QueryString
     }
 
     /**
-     * @return class-string[]
+     * @return array<class-string>
      */
     public function findModelsWithQueryStringTrait(?string $namespace = null, ?string $path = null): array
     {
@@ -72,9 +75,11 @@ class QueryString
         $classes = [];
 
         foreach ($files as $file) {
-            if ($file->isDir()) continue;
+            if ($file->isDir()) {
+                continue;
+            }
 
-            $classString = $namespace . $file->getRelativePathname();
+            $classString = $namespace.$file->getRelativePathname();
 
             $classes[] = str_replace(['/', '.php'], ['\\', ''], $classString);
         }
@@ -92,6 +97,7 @@ class QueryString
                 $reflection->isSubclassOf(Model::class)
                 && in_array(UseQueryString::class, array_keys($reflection->getTraits()))
             ) {
+                /** @var class-string<Model> $class */
                 $models[] = $class;
             }
         }

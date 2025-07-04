@@ -10,12 +10,12 @@ use PHPUnit\Framework\Attributes\Test;
 class QueryStringCommandTest extends TestCase
 {
     #[Test]
-    public function it_caches_query_string_methods()
+    public function it_caches_query_string_methods(): void
     {
         $this
             ->artisan(QueryStringCacheCommand::class, [
                 '--namespace' => 'Goodcat\\QueryString\\Tests\\',
-                '--path' => __DIR__ . '/..'
+                '--path' => __DIR__.'/..',
             ])
             ->assertExitCode(0);
 
@@ -24,15 +24,15 @@ class QueryStringCommandTest extends TestCase
         $this->assertEquals([
             'Goodcat\QueryString\Tests\Support\FakeModel' => [
                 'name' => 'genericTextSearch',
-                'email' => 'genericTextSearch'
-            ]
+                'email' => 'genericTextSearch',
+            ],
         ], $methods);
 
         unlink(QueryString::getCachePath());
     }
 
     #[Test]
-    public function it_clears_query_string_cache()
+    public function it_clears_query_string_cache(): void
     {
         touch(QueryString::getCachePath());
 

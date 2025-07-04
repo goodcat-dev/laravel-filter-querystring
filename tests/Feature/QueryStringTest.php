@@ -5,13 +5,12 @@ namespace Goodcat\QueryString\Tests\Feature;
 use Goodcat\QueryString\QueryString;
 use Goodcat\QueryString\Tests\Support\FakeModel;
 use Goodcat\QueryString\Tests\TestCase;
-use Illuminate\Support\Facades\App;
 use PHPUnit\Framework\Attributes\Test;
 
 class QueryStringTest extends TestCase
 {
     #[Test]
-    public function it_checks_if_query_string_are_cached()
+    public function it_checks_if_query_string_are_cached(): void
     {
         $queryString = new QueryString;
 
@@ -25,7 +24,7 @@ class QueryStringTest extends TestCase
     }
 
     #[Test]
-    public function it_gets_query_string_methods_from_object()
+    public function it_gets_query_string_methods_from_object(): void
     {
         $queryString = new QueryString;
 
@@ -40,7 +39,7 @@ class QueryStringTest extends TestCase
     }
 
     #[Test]
-    public function it_loads_query_string_from_cache()
+    public function it_loads_query_string_from_cache(): void
     {
         $model = new FakeModel;
 
@@ -55,7 +54,7 @@ class QueryStringTest extends TestCase
 
         file_put_contents(
             QueryString::getCachePath(),
-            '<?php return ' . var_export($cache, true) . ';'
+            '<?php return '.var_export($cache, true).';'
         );
 
         $methods = $queryString->loadMethodsFromCache($model);
@@ -69,17 +68,17 @@ class QueryStringTest extends TestCase
     }
 
     #[Test]
-    public function it_finds_models_with_querystring_trait()
+    public function it_finds_models_with_querystring_trait(): void
     {
         $queryString = new QueryString;
 
         $models = $queryString->findModelsWithQuerystringTrait(
             'Goodcat\\QueryString\\Tests\\',
-            __DIR__ . '/..'
+            __DIR__.'/..'
         );
 
         $this->assertEquals([
-            'Goodcat\QueryString\Tests\Support\FakeModel'
+            'Goodcat\QueryString\Tests\Support\FakeModel',
         ], $models);
     }
 }

@@ -49,12 +49,12 @@ class UseQueryStringTest extends TestCase
     }
 
     #[Test]
-    public function it_should_load_querystring_from_cache()
+    public function it_should_load_querystring_from_cache(): void
     {
         $this
             ->artisan(QueryStringCacheCommand::class, [
                 '--namespace' => 'Goodcat\\QueryString\\Tests\\',
-                '--path' => __DIR__ . '/..'
+                '--path' => __DIR__.'/..',
             ]);
 
         $sql = (new FakeModel)->query()->queryString(['name' => 'John Doe'])->toSql();

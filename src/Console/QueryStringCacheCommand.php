@@ -3,6 +3,7 @@
 namespace Goodcat\QueryString\Console;
 
 use Goodcat\QueryString\QueryString;
+use Goodcat\QueryString\Traits\UseQueryString;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Attribute\AsCommand;
 
@@ -29,6 +30,7 @@ class QueryStringCacheCommand extends Command
         );
 
         foreach ($models as $modelClass) {
+            /** @var UseQueryString $model */
             $model = new $modelClass;
 
             $object = $model->getQueryStringObject();
@@ -38,7 +40,7 @@ class QueryStringCacheCommand extends Command
 
         file_put_contents(
             QueryString::getCachePath(),
-            '<?php return ' . var_export($methods, true) . ';'
+            '<?php return '.var_export($methods, true).';'
         );
 
         $this->components->info('Query strings cached successfully.');
