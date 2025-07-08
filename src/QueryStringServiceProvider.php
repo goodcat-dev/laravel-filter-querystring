@@ -23,6 +23,7 @@ class QueryStringServiceProvider extends ServiceProvider
             $this->optimizes(
                 optimize: 'querystring:cache',
                 clear: 'querystring:clear',
+                key: 'querystring'
             );
         }
     }

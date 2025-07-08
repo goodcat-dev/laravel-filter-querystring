@@ -55,18 +55,8 @@ To clear the cache, use the Artisan command `querystring:clear`.
 php artisan querystring:cache
 ```
 
-To streamline your deployment process, you can integrate these commands into Laravel's `optimize` command.
-To do this, simply add the following code to your   `AppServiceProvider` file.
-
-```php
-public function boot(): void
-{
-   $this->optimizes(
-      optimize: 'querystring:cache',
-      clear: 'querystring:clear',
-   );
-}
-```
+To streamline your deployment process, `laravel-querystring` integrates with Laravel's `optimize` command.
+Use the `optimize` and `optimize:clear` commands to create and remove the cache.
 
 ## Configuration
 
