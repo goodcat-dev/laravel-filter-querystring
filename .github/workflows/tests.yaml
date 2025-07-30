@@ -39,4 +39,4 @@ jobs:
           composer update --prefer-dist --no-interaction
 
       - name: Execute tests
-        run: vendor/bin/phpunit --ci
+        run: vendor/bin/pest --ci
