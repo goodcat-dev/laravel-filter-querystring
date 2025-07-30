@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.1.1
+
+Released on _**2025-07-30**_.
+
+### Added
+
+- Badges. ✨
+
+### Changed
+
+- Updates dependencies.
+
 ## v1.1.0
 
 Released on _**2025-07-04**_.
