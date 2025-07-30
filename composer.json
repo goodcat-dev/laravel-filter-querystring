@@ -36,8 +36,11 @@
     ],
     "require": {
         "php": "^8.2",
-        "illuminate/database": "^10.0|^11.0|^12.0",
-        "illuminate/http": "^10.0|^11.0|^12.0"
+        "illuminate/console": "^10.2|^11.0|^12.0",
+        "illuminate/database": "^10.2|^11.0|^12.0",
+        "illuminate/filesystem": "^10.2|^11.0|^12.0",
+        "illuminate/http": "^10.2|^11.0|^12.0",
+        "illuminate/support": "^10.2|^11.0|^12.0"
     },
     "require-dev": {
         "orchestra/testbench": "^9.9",
