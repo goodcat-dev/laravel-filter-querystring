@@ -1,6 +1,6 @@
 # Query String
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/goodcat-dev/laravel-querystring.svg?style=flat-square)](https://packagist.org/packages/goodcat/laravel-querystring)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/goodcat/laravel-querystring.svg?style=flat-square)](https://packagist.org/packages/goodcat/laravel-querystring)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/goodcat-dev/laravel-querystring/tests.yaml?branch=main&label=tests&style=flat-square)](https://github.com/goodcat-dev/laravel-querystring/actions?query=workflow%3Atests+branch%3Amain)
 
 This package allows you to filter Eloquent models using query string parameters.
