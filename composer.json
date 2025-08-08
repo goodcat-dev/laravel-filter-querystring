@@ -1,5 +1,5 @@
 {
-    "name": "goodcat/laravel-querystring",
+    "name": "goodcat/laravel-filter-querystring",
     "description": "A laravel package to filter Eloquent models using query string parameters",
     "license": "MIT",
     "autoload": {
@@ -18,7 +18,7 @@
             "email": "outlaw.plz@gmail.com"
         }
     ],
-    "homepage": "https://github.com/goodcat-dev/laravel-querystring",
+    "homepage": "https://github.com/goodcat-dev/laravel-filter-querystring",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "extra": {

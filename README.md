@@ -1,17 +1,17 @@
-# Query String
+# Laravel Filter Query String
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/goodcat/laravel-querystring.svg?style=flat-square)](https://packagist.org/packages/goodcat/laravel-querystring)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/goodcat-dev/laravel-querystring/tests.yaml?branch=main&label=tests&style=flat-square)](https://github.com/goodcat-dev/laravel-querystring/actions?query=workflow%3Atests+branch%3Amain)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/goodcat/laravel-filter-querystring.svg?style=flat-square)](https://packagist.org/packages/goodcat/laravel-filter-querystring)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/goodcat-dev/laravel-filter-querystring/tests.yaml?branch=main&label=tests&style=flat-square)](https://github.com/goodcat-dev/laravel-filter-querystring/actions?query=workflow%3Atests+branch%3Amain)
 
 This package allows you to filter Eloquent models using query string parameters.
 
 ## Quick Start
 
-Get started with `laravel-querystring` in three steps.
+Get started with `laravel-filter-querystring` in three steps.
 
 1. Download the package via Composer.
    ```sh
-   composer require goodcat/laravel-querystring
+   composer require goodcat/laravel-filter-querystring
    ```
    
 2. Add the `UseQueryString` trait to your model and tag a method with the `QueryString` attribute.
@@ -46,11 +46,11 @@ Get started with `laravel-querystring` in three steps.
    }
    ```
 
-That's it. You're all set to start using `laravel-querystring`.
+That's it. You're all set to start using `laravel-filter-querystring`.
 
 ## Caching
 
-`laravel-querystring` scans your code to locate methods tagged with the `QueryString` attribute.
+`laravel-filter-querystring` scans your code to locate methods tagged with the `QueryString` attribute.
 While the performance impact of this discovery is negligible, you can cache these methods using the Artisan command `querystring:cache`.
 To clear the cache, use the Artisan command `querystring:clear`.
 
@@ -58,7 +58,7 @@ To clear the cache, use the Artisan command `querystring:clear`.
 php artisan querystring:cache
 ```
 
-To streamline your deployment process, `laravel-querystring` integrates with Laravel's `optimize` command.
+To streamline your deployment process, `laravel-filter-querystring` integrates with Laravel's `optimize` command.
 Use the `optimize` and `optimize:clear` commands to create and remove the cache.
 
 ## Configuration
@@ -71,11 +71,11 @@ php artisan vendor:publish --provider="Goodcat\QueryString\QueryStringServicePro
 
 ### Handling `null` values
 
-The `null` values are ignored by `laravel-querystring`. If you want `null` values passed to your function, set `'allows_null'` to `true` in `config/querystring.php` file.
+The `null` values are ignored by `laravel-filter-querystring`. If you want `null` values passed to your function, set `'allows_null'` to `true` in `config/querystring.php` file.
 
 ## Digging deeper
 
-Let's take a closer look at how `laravel-querystring` works under the hood and explore its advanced features.
+Let's take a closer look at how `laravel-filter-querystring` works under the hood and explore its advanced features.
 
 ### `#[QueryString]` attribute
 
@@ -123,7 +123,7 @@ Laravel uses `TrimStrings` and `ConvertEmptyStringsToNull` middlewares to trim a
 
 ### Filter object
 
-By default, `laravel-querystring` searches the model for filter methods. If you wish, you can register a different class by overriding the `getQueryStringObject()` method.
+By default, `laravel-filter-querystring` searches the model for filter methods. If you wish, you can register a different class by overriding the `getQueryStringObject()` method.
 
 ```php
    class User extends Authenticatable
