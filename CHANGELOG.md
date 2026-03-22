@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.0.0
+
+Released on _**2026-03-22**_.
+
+### Added
+
+- Laravel 13 support.
+
 ## v1.1.1
 
 Released on _**2025-07-30**_.
