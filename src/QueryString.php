@@ -7,7 +7,6 @@ use Goodcat\QueryString\Attributes\QueryString as QueryStringAttribute;
 use Goodcat\QueryString\Traits\UseQueryString;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\App;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -40,7 +39,9 @@ class QueryString
                 /** @var QueryStringAttribute $queryString */
                 $queryString = $attribute->newInstance();
 
-                $methods[$queryString->name] = $method->getName();
+                foreach ($queryString->names as $name) {
+                    $methods[$name] = $method->getName();
+                }
             }
         }
 
@@ -54,7 +55,7 @@ class QueryString
 
     public static function getCachePath(): string
     {
-        return App::bootstrapPath('cache/querystring.php');
+        return app()->bootstrapPath('cache/querystring.php');
     }
 
     /**
@@ -64,21 +65,16 @@ class QueryString
     {
         // Use valid PSR-4 path/namespace as defined in composer.json
         // E.g. "Goodcat\QueryString\Tests\" and __DIR__ . '../tests'
-        $namespace ??= App::getNamespace();
-        $path ??= App::path();
+        $namespace ??= app()->getNamespace();
+        $path ??= app()->path();
 
-        /** @var Filesystem $filesystem */
-        $filesystem = App::make(Filesystem::class);
+        $filesystem = app(Filesystem::class);
 
         $files = $filesystem->allFiles($path);
 
         $classes = [];
 
         foreach ($files as $file) {
-            if ($file->isDir()) {
-                continue;
-            }
-
             $classString = $namespace.$file->getRelativePathname();
 
             $classes[] = str_replace(['/', '.php'], ['\\', ''], $classString);

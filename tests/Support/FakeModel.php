@@ -14,8 +14,8 @@ class FakeModel extends Model
     /**
      * @param  Builder<self>  $query
      */
-    #[QueryString('name')]
-    #[QueryString('email')]
+    #[QueryString('name', 'email')]
+    #[QueryString('description')]
     public function genericTextSearch(Builder $query, ?string $search, string $queryString): void
     {
         $query->where($queryString, 'like', "$search%");

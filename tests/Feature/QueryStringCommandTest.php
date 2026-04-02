@@ -25,6 +25,7 @@ class QueryStringCommandTest extends TestCase
             'Goodcat\QueryString\Tests\Support\FakeModel' => [
                 'name' => 'genericTextSearch',
                 'email' => 'genericTextSearch',
+                'description' => 'genericTextSearch',
             ],
         ], $methods);
 

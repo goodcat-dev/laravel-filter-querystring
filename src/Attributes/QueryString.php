@@ -7,11 +7,13 @@ use Attribute;
 #[Attribute(Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
 final readonly class QueryString
 {
+    public array $names;
+
     /**
-     * @param  non-empty-string  $name
+     * @param  non-empty-string  ...$names
      */
-    public function __construct(public string $name)
+    public function __construct(string ...$names)
     {
-        //
+        $this->names = $names;
     }
 }

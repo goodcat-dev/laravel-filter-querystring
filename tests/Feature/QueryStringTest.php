@@ -35,6 +35,7 @@ class QueryStringTest extends TestCase
         $this->assertEquals([
             'name' => 'genericTextSearch',
             'email' => 'genericTextSearch',
+            'description' => 'genericTextSearch',
         ], $methods);
     }
 
