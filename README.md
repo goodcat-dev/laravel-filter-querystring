@@ -94,8 +94,8 @@ E.g. The string `name` in the URL `http://example.com/?name=John+Doe` is mapped 
 The filter method receives three parameters: the query builder, the query string value and the query string name. You can add multiple attributes to the same method.
 
 ```php
-#[QueryString('name')]
-#[QueryString('email')]
+#[QueryString('name', 'email')]
+#[QueryString('description')]
 public function genericStringSearch(Build $query, string $search, string $name): void
 {
     $query->where($name, 'like', "$search%");

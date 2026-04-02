@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.1.0
+
+Released on _**2026-04-02**_.
+
+### Added
+
+- Adds variadic argument on QueryString attribute.
+
 ## v2.0.0
 
 Released on _**2026-03-22**_.
