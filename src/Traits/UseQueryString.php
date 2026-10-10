@@ -22,10 +22,17 @@ trait UseQueryString
             ? $queryString->loadMethodsFromCache($this)
             : $queryString->getMethodsFrom($object);
 
-        $queryStrings = array_intersect_key(
-            is_array($request) ? $request : $request->query(),
-            $methods
-        );
+        $parameters = $request;
+
+        if ($request instanceof Request) {
+            $parameters = $request->query();
+
+            if ($request->isMethod('QUERY')) {
+                $parameters = $request->isJson() ? $request->json()->all() : $request->request->all();
+            }
+        }
+
+        $queryStrings = array_intersect_key($parameters, $methods);
 
         $allowsNull = config('querystring.allows_null');
 

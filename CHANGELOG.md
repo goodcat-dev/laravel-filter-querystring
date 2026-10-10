@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+### Added
+
+- Automatic filtering from JSON or form request bodies for the HTTP `QUERY` method.
+
+### Changed
+
+- Requires Symfony HttpFoundation ^7.4 or ^8.0 for HTTP `QUERY` body parsing.
+
+### Fixed
+
+- Corrects the visibility of `getQueryStringObject()` in the README example.
+
 ## v2.1.0
 
 Released on _**2026-04-02**_.

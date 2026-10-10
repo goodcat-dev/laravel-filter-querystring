@@ -3,136 +3,132 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/goodcat/laravel-filter-querystring.svg?style=flat-square)](https://packagist.org/packages/goodcat/laravel-filter-querystring)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/goodcat-dev/laravel-filter-querystring/test.yaml?branch=main&label=tests&style=flat-square)](https://github.com/goodcat-dev/laravel-filter-querystring/actions?query=workflow%3Atests+branch%3Amain)
 
-This package allows you to filter Eloquent models using query string parameters.
+Filter Eloquent models using URL query parameters or HTTP `QUERY` request bodies.
+
+## Installation
+
+Requires PHP 8.2+ and Laravel 11, 12 or 13.
+
+```sh
+composer require goodcat/laravel-filter-querystring
+```
 
 ## Quick Start
 
-Get started with `laravel-filter-querystring` in three steps.
+Add `UseQueryString` to your model and define a public filter method:
 
-1. Download the package via Composer.
-   ```sh
-   composer require goodcat/laravel-filter-querystring
-   ```
-   
-2. Add the `UseQueryString` trait to your model and tag a method with the `QueryString` attribute.
-   ```php
-   use Illuminate\Database\Eloquent\Builder;
-   use Goodcat\QueryString\Traits\UseQueryString;
-   use Goodcat\QueryString\Attributes\QueryString;
-   
-   class User extends Authenticatable
-   {
-       use UseQueryString;
-       
-       #[QueryString('email')]
-       public function filterByEmail(Builder $query, string $search): void
-       {
-           $query->where('email', $search);
-       }
-   }
-   ```
-   
-3. Use the `queryString()` scope when you want to filter models based on query string parameters in the request.
-   ```php
-   class UserController extends Controller
-   {
-       public function index(Request $request): View
-       {
-           // E.g. https://example.com/users?email=john@doe.com
-           $users = User::query()->queryString($request)->get();
-   
-           return view('user.index', ['users' => $users]);
-       }
-   }
-   ```
+```php
+use Goodcat\QueryString\Attributes\QueryString;
+use Goodcat\QueryString\Traits\UseQueryString;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-That's it. You're all set to start using `laravel-filter-querystring`.
+class User extends Authenticatable
+{
+    use UseQueryString;
 
-## Caching
-
-`laravel-filter-querystring` scans your code to locate methods tagged with the `QueryString` attribute.
-While the performance impact of this discovery is negligible, you can cache these methods using the Artisan command `querystring:cache`.
-To clear the cache, use the Artisan command `querystring:clear`.
-
-```shell
-php artisan querystring:cache
+    #[QueryString('email')]
+    public function filterByEmail(Builder $query, string $email): void
+    {
+        $query->where('email', $email);
+    }
+}
 ```
 
-To streamline your deployment process, `laravel-filter-querystring` integrates with Laravel's `optimize` command.
-Use the `optimize` and `optimize:clear` commands to create and remove the cache.
+Register a route in `routes/api.php`:
 
-## Configuration
+```php
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
-To publish the config file to `config/querystring.php` run the command:
+Route::get('/users', function (Request $request) {
+    return User::query()->queryString($request)->get();
+});
+```
+
+Request `/api/users?email=john%40doe.com` to find users with that email. Parameters without a matching filter are ignored.
+
+## Filter Methods
+
+Filters receive the builder, the value and, optionally, the parameter name. Use multiple names to share a filter:
+
+```php
+#[QueryString('name', 'email')]
+public function filterByText(Builder $query, string $value, string $name): void
+{
+    $query->where($name, 'like', $value.'%');
+}
+```
+
+You can also repeat the attribute on a method. Validate input in your application before filtering.
+
+## Passing an Array
+
+Pass an array to choose the filter values directly:
+
+```php
+$users = User::query()->queryString(['email' => 'john@doe.com'])->get();
+```
+
+Array values are passed as provided, without trimming or converting empty strings to `null`.
+
+## HTTP `QUERY` Requests
+
+For `QUERY`, filters come only from the JSON or URL-encoded form body. URL parameters are ignored, even when the body is empty. Other methods, including `POST`, use only URL parameters.
+
+Using the same imports as the Quick Start, register a route in `routes/api.php`:
+
+```php
+Route::match(['QUERY'], '/users', function (Request $request) {
+    return User::query()->queryString($request)->get();
+});
+```
+
+Send a JSON body:
+
+```sh
+curl -X QUERY https://example.com/api/users \
+    -H 'Content-Type: application/json' \
+    -d '{"email":"john@doe.com"}'
+```
+
+Or a URL-encoded form body:
+
+```sh
+curl -X QUERY https://example.com/api/users \
+    --data-urlencode 'email=john@doe.com'
+```
+
+## Filter Objects
+
+To keep filters in a separate class, override this public method on your model:
+
+```php
+public function getQueryStringObject(): object
+{
+    return new UserFilters;
+}
+```
+
+Define public methods on `UserFilters` with the same attributes and signatures as model filters.
+
+## Null Values
+
+`null` values are ignored by default. To pass them to your filters, publish the configuration:
 
 ```sh
 php artisan vendor:publish --provider="Goodcat\QueryString\QueryStringServiceProvider"
 ```
 
-### Handling `null` values
+Set `'allows_null' => true` in `config/querystring.php` and allow `null` in the relevant filter parameters.
 
-The `null` values are ignored by `laravel-filter-querystring`. If you want `null` values passed to your function, set `'allows_null'` to `true` in `config/querystring.php` file.
+## Caching
 
-## Digging deeper
+Cache filters during deployment and regenerate the cache after changing models or filters:
 
-Let's take a closer look at how `laravel-filter-querystring` works under the hood and explore its advanced features.
-
-### `#[QueryString]` attribute
-
-The `QueryString` attribute is used to map the _name of a query string_ to a method. The attribute name must match the query string name.
-
-```php
-#[QueryString('name')]
-public function filterByName(Builder $query, string $search): void 
+```sh
+php artisan querystring:cache
 ```
 
-E.g. The string `name` in the URL `http://example.com/?name=John+Doe` is mapped to the method tagged with the `#[QueryString('name')]` attribute.
-
-
-### Filter methods
-
-The filter method receives three parameters: the query builder, the query string value and the query string name. You can add multiple attributes to the same method.
-
-```php
-#[QueryString('name', 'email')]
-#[QueryString('description')]
-public function genericStringSearch(Build $query, string $search, string $name): void
-{
-    $query->where($name, 'like', "$search%");
-}
-```
-
-### `queryString()` scope
-
-The `queryString()` scope is responsible for calling your filter methods. It accepts a `Request` or an `array<string, string>`.
-
-```php
-public function index(Request $request): View
-{
-    $filters = $request->query();
-    
-    // Change $filters array as desired.
-    
-    $users = User::query()->queryString($filters)->get();
-    
-    return view('user.index', ['users' => $users]);
-}
-```
-
-Laravel uses `TrimStrings` and `ConvertEmptyStringsToNull` middlewares to trim and nullify empty strings from requests. If you pass an `array` to the filter method, it's up to you to normalize the passed value.
-
-### Filter object
-
-By default, `laravel-filter-querystring` searches the model for filter methods. If you wish, you can register a different class by overriding the `getQueryStringObject()` method.
-
-```php
-   class User extends Authenticatable
-   {
-       use UseQueryString;
-
-        protected function getQueryStringObject(): object
-        {
-            return new CustomFilterClass();
-        }
-   }
-```
+Clear it with `php artisan querystring:clear`. Laravel's `optimize` and `optimize:clear` commands also create and clear this cache.
