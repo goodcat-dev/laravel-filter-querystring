@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Fixed
+
+- Includes models with inherited or composed `UseQueryString` traits in the cache and excludes non-instantiable models.
+
 ## v2.2.0
 
 Released on _**2026-10-10**_.

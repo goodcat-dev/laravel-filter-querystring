@@ -91,7 +91,8 @@ class QueryString
 
             if (
                 $reflection->isSubclassOf(Model::class)
-                && in_array(UseQueryString::class, array_keys($reflection->getTraits()))
+                && $reflection->isInstantiable()
+                && in_array(UseQueryString::class, class_uses_recursive($class), true)
             ) {
                 /** @var class-string<Model> $class */
                 $models[] = $class;

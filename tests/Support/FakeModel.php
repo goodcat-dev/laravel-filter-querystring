@@ -7,10 +7,8 @@ use Goodcat\QueryString\Traits\UseQueryString;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-class FakeModel extends Model
+class FakeModel extends AbstractModel
 {
-    use UseQueryString;
-
     /**
      * @param  Builder<self>  $query
      */
