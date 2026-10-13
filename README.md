@@ -1,7 +1,7 @@
-# Laravel Filter Query String
+# Laravel Eloquent Query String
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/goodcat/laravel-filter-querystring.svg?style=flat-square)](https://packagist.org/packages/goodcat/laravel-filter-querystring)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/goodcat-dev/laravel-filter-querystring/test.yml?branch=main&label=tests&style=flat-square)](https://github.com/goodcat-dev/laravel-filter-querystring/actions?query=workflow%3ATest+branch%3Amain)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/goodcat/laravel-eloquent-querystring.svg?style=flat-square)](https://packagist.org/packages/goodcat/laravel-eloquent-querystring)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/goodcat-dev/laravel-eloquent-querystring/test.yml?branch=main&label=tests&style=flat-square)](https://github.com/goodcat-dev/laravel-eloquent-querystring/actions?query=workflow%3ATest+branch%3Amain)
 
 Filter Eloquent models using URL query parameters or HTTP `QUERY` request bodies.
 
@@ -10,7 +10,7 @@ Filter Eloquent models using URL query parameters or HTTP `QUERY` request bodies
 Requires PHP 8.2+ and Laravel 11, 12 or 13.
 
 ```sh
-composer require goodcat/laravel-filter-querystring
+composer require goodcat/laravel-eloquent-querystring
 ```
 
 ## Quick Start

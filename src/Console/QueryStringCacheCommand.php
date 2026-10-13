@@ -3,8 +3,9 @@
 namespace Goodcat\QueryString\Console;
 
 use Goodcat\QueryString\QueryString;
-use Goodcat\QueryString\Traits\UseQueryString;
 use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
+use LogicException;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'querystring:cache')]
@@ -18,8 +19,6 @@ class QueryStringCacheCommand extends Command
 
     public function handle(): void
     {
-        $this->callSilently('querystring:clear');
-
         $queryString = new QueryString;
 
         $methods = [];
@@ -30,15 +29,19 @@ class QueryStringCacheCommand extends Command
         );
 
         foreach ($models as $modelClass) {
-            /** @var UseQueryString $model */
             $model = new $modelClass;
 
+            if (! method_exists($model, 'getQueryStringObject')) {
+                throw new LogicException("Model {$modelClass} must provide getQueryStringObject().");
+            }
+
+            /** @var object $object */
             $object = $model->getQueryStringObject();
 
             $methods[$modelClass] = $queryString->getMethodsFrom($object);
         }
 
-        file_put_contents(
+        app(Filesystem::class)->replace(
             QueryString::getCachePath(),
             '<?php return '.var_export($methods, true).';'
         );
