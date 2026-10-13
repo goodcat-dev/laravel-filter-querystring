@@ -2,7 +2,6 @@
 
 namespace Goodcat\QueryString;
 
-use Exception;
 use Goodcat\QueryString\Attributes\QueryString as QueryStringAttribute;
 use Goodcat\QueryString\Traits\UseQueryString;
 use Illuminate\Database\Eloquent\Model;
@@ -24,7 +23,7 @@ class QueryString
     }
 
     /**
-     * @return array<string, ?string>
+     * @return array<string, string>
      */
     public function getMethodsFrom(object $object): array
     {
@@ -36,7 +35,6 @@ class QueryString
             $attributes = $method->getAttributes(QueryStringAttribute::class);
 
             foreach ($attributes as $attribute) {
-                /** @var QueryStringAttribute $queryString */
                 $queryString = $attribute->newInstance();
 
                 foreach ($queryString->names as $name) {
@@ -59,7 +57,7 @@ class QueryString
     }
 
     /**
-     * @return array<class-string>
+     * @return list<class-string<Model>>
      */
     public function findModelsWithQueryStringTrait(?string $namespace = null, ?string $path = null): array
     {
@@ -83,11 +81,11 @@ class QueryString
         $models = [];
 
         foreach ($classes as $class) {
-            try {
-                $reflection = new ReflectionClass($class);
-            } catch (Exception) {
+            if (! class_exists($class)) {
                 continue;
             }
+
+            $reflection = new ReflectionClass($class);
 
             if (
                 $reflection->isSubclassOf(Model::class)

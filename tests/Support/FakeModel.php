@@ -3,9 +3,7 @@
 namespace Goodcat\QueryString\Tests\Support;
 
 use Goodcat\QueryString\Attributes\QueryString;
-use Goodcat\QueryString\Traits\UseQueryString;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 class FakeModel extends AbstractModel
 {

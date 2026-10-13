@@ -10,7 +10,7 @@ trait UseQueryString
 {
     /**
      * @param  Builder<self>  $query
-     * @param  Request|array<string, ?string>  $request
+     * @param  Request|array<string, mixed>  $request
      */
     public function scopeQueryString(Builder $query, Request|array $request): void
     {
@@ -22,10 +22,11 @@ trait UseQueryString
             ? $queryString->loadMethodsFromCache($this)
             : $queryString->getMethodsFrom($object);
 
+        /** @var array<string, mixed> $parameters */
         $parameters = $request;
 
         if ($request instanceof Request) {
-            $parameters = $request->query();
+            $parameters = $request->query->all();
 
             if ($request->isMethod('QUERY')) {
                 $parameters = $request->isJson() ? $request->json()->all() : $request->request->all();

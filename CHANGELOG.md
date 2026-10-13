@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 - Includes models with inherited or composed `UseQueryString` traits in the cache and excludes non-instantiable models.
 - Replaces the filter cache atomically and preserves the previous cache if generation fails.
+- Corrects type information and PHPStan inference for attributes, model discovery, request parameters and cache commands.
 
 ## v2.2.0
 

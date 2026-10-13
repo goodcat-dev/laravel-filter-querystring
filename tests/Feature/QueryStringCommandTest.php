@@ -7,6 +7,7 @@ use Goodcat\QueryString\QueryString;
 use Goodcat\QueryString\Tests\Support\AbstractModel;
 use Goodcat\QueryString\Tests\Support\FakeModel;
 use Goodcat\QueryString\Tests\TestCase;
+use Illuminate\Database\Eloquent\Model;
 use PHPUnit\Framework\Attributes\Test;
 
 class QueryStringCommandTest extends TestCase
@@ -15,7 +16,7 @@ class QueryStringCommandTest extends TestCase
     public function it_caches_query_string_methods(): void
     {
         $this
-            ->artisan(QueryStringCacheCommand::class, [
+            ->mockArtisan(QueryStringCacheCommand::class, [
                 '--namespace' => 'Goodcat\\QueryString\\Tests\\',
                 '--path' => __DIR__.'/..',
             ])
@@ -38,17 +39,18 @@ class QueryStringCommandTest extends TestCase
     public function it_excludes_abstract_models_when_generating_cache(): void
     {
         try {
-            $this->artisan(QueryStringCacheCommand::class, [
+            $this->mockArtisan(QueryStringCacheCommand::class, [
                 '--namespace' => 'Goodcat\\QueryString\\Tests\\Support\\',
                 '--path' => __DIR__.'/../Support',
             ])->assertExitCode(0);
 
+            /** @var array<class-string<Model>, array<string, string>> $methods */
             $methods = require QueryString::getCachePath();
 
             $this->assertArrayNotHasKey(AbstractModel::class, $methods);
             $this->assertArrayHasKey(FakeModel::class, $methods);
         } finally {
-            $this->artisan('querystring:clear')->assertExitCode(0);
+            $this->mockArtisan('querystring:clear')->assertExitCode(0);
         }
     }
 
@@ -57,7 +59,7 @@ class QueryStringCommandTest extends TestCase
     {
         touch(QueryString::getCachePath());
 
-        $this->artisan('querystring:clear')->assertExitCode(0);
+        $this->mockArtisan('querystring:clear')->assertExitCode(0);
 
         $this->assertFileDoesNotExist(QueryString::getCachePath());
     }
