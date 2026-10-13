@@ -5,6 +5,7 @@ namespace Goodcat\QueryString\Console;
 use Goodcat\QueryString\QueryString;
 use Goodcat\QueryString\Traits\UseQueryString;
 use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'querystring:cache')]
@@ -18,8 +19,6 @@ class QueryStringCacheCommand extends Command
 
     public function handle(): void
     {
-        $this->callSilently('querystring:clear');
-
         $queryString = new QueryString;
 
         $methods = [];
@@ -38,7 +37,7 @@ class QueryStringCacheCommand extends Command
             $methods[$modelClass] = $queryString->getMethodsFrom($object);
         }
 
-        file_put_contents(
+        app(Filesystem::class)->replace(
             QueryString::getCachePath(),
             '<?php return '.var_export($methods, true).';'
         );

@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Includes models with inherited or composed `UseQueryString` traits in the cache and excludes non-instantiable models.
+- Replaces the filter cache atomically and preserves the previous cache if generation fails.
 
 ## v2.2.0
 
